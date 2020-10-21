@@ -10,6 +10,13 @@ module.exports = gql`
     likes: [Like]!
     likeCount: Int!
     commentCount: Int!
+    correctCount:Int!
+    questionCount: Int!
+  }
+  type Quiz {
+    id: ID!
+    createdAt: String!
+    data: []!
   }
   type Comment {
     id: ID!
@@ -38,6 +45,8 @@ module.exports = gql`
   type Query {
     getPosts: [Post]
     getPost(postId: ID!): Post
+    getQuizzes: [Quiz]
+    getQuiz(quizId: ID!): Quiz
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -47,6 +56,8 @@ module.exports = gql`
     createComment(postId: ID!, body: String!): Post!
     deleteComment(postId: ID!, commentId: ID!): Post!
     likePost(postId: ID!): Post!
+    createQuiz(data:[]!, title:String!): Quiz!
+
   }
   type Subscription {
     newPost: Post!
