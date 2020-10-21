@@ -56,9 +56,9 @@ module.exports = {
       //validate input data
       const { valid, errors } = validateRegisterInput(
         username,
+        email,
         password,
         confirmPassword,
-        email
       );
       if (!valid) {
         throw new UserInputError("Errors", { errors });
@@ -76,8 +76,8 @@ module.exports = {
       password = await bcrypt.hash(password, 12);
 
       const newUser = new User({
-        email,
         username,
+        email,
         password,
         confirmPassword,
         createdAt: new Date().toISOString(),
