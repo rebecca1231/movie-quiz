@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { Grid, Transition } from "semantic-ui-react";
 
 import QuizCard from "../components/QuizCard";
-import { AuthContext } from "../context/auth";
 import { FETCH_QUIZZES_QUERY } from "../util/graphql";
+
+// import { AuthContext } from "../context/auth";
 
 
 const QuizzesHome = () => {
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
   const { loading, data: { getQuizzes: quizzes } = {} } = useQuery(
     FETCH_QUIZZES_QUERY
   );

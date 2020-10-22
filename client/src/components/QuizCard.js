@@ -1,18 +1,18 @@
-import React, { useContext } from "react";
-import { Card, Icon, Label, Image, Button, Popup } from "semantic-ui-react";
+import React from "react";
+import { Card, Image } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
-import { AuthContext } from "../context/auth";
-import LikeButton from "./LikeButton";
-import DeleteButton from "./DeleteButton";
-import CommentButton from './CommentButton'
-import QuizzesHome from "../pages/QuizzesHome";
+// import { AuthContext } from "../context/auth";
+// import LikeButton from "./LikeButton";
+// import DeleteButton from "./DeleteButton";
+// import CommentButton from './CommentButton'
+
 
 const QuizCard = ({
   quiz: { title, createdAt, id, username, items},
 }) => {
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
 
   return (
     <Card fluid>

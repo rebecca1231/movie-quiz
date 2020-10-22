@@ -3,6 +3,7 @@ const userResolver = require("./users");
 const commentResolver = require("./comments");
 const quizResolver = require("./quizzes");
 const quizItemResolver = require("./quizItems");
+const movieResolver = require('./movies')
 
 module.exports = {
   Post: {
@@ -12,6 +13,7 @@ module.exports = {
   Query: {
     ...postResolver.Query,
     ...quizResolver.Query,
+    ...movieResolver.Query
   },
   Mutation: {
     ...userResolver.Mutation,

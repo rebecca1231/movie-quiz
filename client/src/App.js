@@ -34,3 +34,14 @@ function App() {
 }
 
 export default App;
+/**
+ *  <React.StrictMode>
+    <AuthContextProvider>
+    <CountContextProvider>
+      <DataContextProvider>
+    <App />
+    </DataContextProvider>
+    </CountContextProvider>
+    </AuthContextProvider>
+  </React.StrictMode>,
+ */

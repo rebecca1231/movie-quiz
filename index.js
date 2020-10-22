@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const { MONGO_URI } = require("./config/dev");
 const typeDefs = require("./GraphQl/typeDefs");
 const resolvers = require("./GraphQl/resolvers");
+const MoviesAPI = require('./MoviesAPI')
 
 const PORT = process.env.PORT || 5000;
 
@@ -12,6 +13,11 @@ const pubsub = new PubSub();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  dataSources: () => {
+    return {
+      MoviesAPI: new MoviesAPI()
+    }
+  },
   context: ({ req }) => ({ req, pubsub }),
 });
 
@@ -27,3 +33,5 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+  //require('./routes/movieRoutes')(server)

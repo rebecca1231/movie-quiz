@@ -7,8 +7,8 @@ module.exports = gql`
     items: [QuizItem!]
     createdAt: String!
     username: String!
-
   }
+  
   type QuizItem {
     question: String!
     answer: String!
@@ -61,7 +61,8 @@ module.exports = gql`
     getPost(postId: ID!): Post
     getQuizzes: [Quiz]
     getQuiz(quizId:ID!): Quiz
-
+    getMovieList(id:String!): Quiz
+    getMovieDetail(searchTerm: String!): QuizItem    
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -74,6 +75,7 @@ module.exports = gql`
     createQuiz(title:String!): Quiz!
     createQuizItem(quizId: ID!, question: String!, answer: String!): Quiz!
     deleteQuiz(quizId: ID!): String!
+
   }
   type Subscription {
     newPost: Post!

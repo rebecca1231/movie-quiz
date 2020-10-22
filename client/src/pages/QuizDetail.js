@@ -1,32 +1,25 @@
-import React, { useContext, useState, useRef } from "react";
-import { useParams, Link, useHistory } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
-import gql from "graphql-tag";
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+// import gql from "graphql-tag";
 import {
   Grid,
-  Button,
-  Icon,
-  Label,
-  Form,
-  Popup,
   List,
 } from "semantic-ui-react";
 import moment from "moment";
 
-import { AuthContext } from "../context/auth";
-import LikeButton from "../components/LikeButton";
-import DeleteButton from "../components/DeleteButton";
-import CommentButton from "../components/CommentButton";
+// import { AuthContext } from "../context/auth";
+// import LikeButton from "../components/LikeButton";
+// import DeleteButton from "../components/DeleteButton";
+// import CommentButton from "../components/CommentButton";
 import { GET_QUIZ_QUERY } from "../util/graphql";
 
 const QuizDetail = () => {
-  const { user } = useContext(AuthContext);
-  const history = useHistory();
+  // const { user } = useContext(AuthContext);
+  // const history = useHistory();
   const { quizId } = useParams();
 
-  const deletePostCallback = () => {
-    history.push("/");
-  };
+  // const deletePostCallback = () => { history.push("/");};
 
   const { data: { getQuiz: quiz } = {} } = useQuery(GET_QUIZ_QUERY, {
     variables: { quizId },
@@ -35,7 +28,7 @@ const QuizDetail = () => {
   if (!quiz) {
     quizMarkup = <p>Loading...</p>;
   } else {
-    const { title, id, createdAt, username, items } = quiz;
+    const { title, createdAt, username, items } = quiz;
 
     quizMarkup = (
       <Grid>

@@ -1,8 +1,8 @@
 import React, { useContext, useState, useRef } from "react";
-import { useParams, Link, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import { Card, Grid, Image, Button, Icon, Label, Form, Popup } from "semantic-ui-react";
+import { Card, Grid, Image, Form } from "semantic-ui-react";
 import moment from "moment";
 
 import { AuthContext } from "../context/auth";
