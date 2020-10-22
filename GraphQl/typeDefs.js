@@ -1,6 +1,24 @@
 const { gql } = require("apollo-server");
 
 module.exports = gql`
+  type Quiz {
+    id: ID!
+    title:String!
+    items: [QuizItem!]
+    createdAt: String!
+    username: String!
+
+  }
+  type QuizItem {
+    question: String!
+    answer: String!
+  }
+  type Score {
+    correctCount:Int!
+    questionCount:Int!
+    quizTitle: String!
+    username:String!
+  }
   type Post {
     id: ID!
     body: String!
@@ -11,12 +29,8 @@ module.exports = gql`
     likeCount: Int!
     commentCount: Int!
     correctCount:Int!
-    questionCount: Int!
-  }
-  type Quiz {
-    id: ID!
-    createdAt: String!
-    data: []!
+    questionCount:Int!
+    quizTitle:String!
   }
   type Comment {
     id: ID!
@@ -46,7 +60,8 @@ module.exports = gql`
     getPosts: [Post]
     getPost(postId: ID!): Post
     getQuizzes: [Quiz]
-    getQuiz(quizId: ID!): Quiz
+    getQuiz(quizId:ID!): Quiz
+
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -56,8 +71,9 @@ module.exports = gql`
     createComment(postId: ID!, body: String!): Post!
     deleteComment(postId: ID!, commentId: ID!): Post!
     likePost(postId: ID!): Post!
-    createQuiz(data:[]!, title:String!): Quiz!
-
+    createQuiz(title:String!): Quiz!
+    createQuizItem(quizId: ID!, question: String!, answer: String!): Quiz!
+    deleteQuiz(quizId: ID!): String!
   }
   type Subscription {
     newPost: Post!

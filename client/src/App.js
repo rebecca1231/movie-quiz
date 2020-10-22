@@ -6,11 +6,13 @@ import "./App.css";
 
 import AuthRoute from './util/AuthRoute'
 import { AuthProvider } from "./context/auth";
-import Home from "./pages/Home";
+import PostsHome from "./pages/PostsHome";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MenuBar from "./components/MenuBar";
 import SinglePost from './pages/SinglePost'
+import QuizzesHome from './pages/QuizzesHome'
+import QuizDetail from './pages/QuizDetail'
 
 function App() {
   return (
@@ -18,7 +20,9 @@ function App() {
       <Router>
         <Container>
           <MenuBar />
-          <Route exact path="/" component={Home} />
+          <Route exact path="/quizzes" component={QuizzesHome} />
+          <Route exact path="/quizzes/:quizId" component={QuizDetail} />
+          <Route exact path="/posts" component={PostsHome} />
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/register" component={Register} />
           <Route exact path="/posts/:postId" component={SinglePost} />

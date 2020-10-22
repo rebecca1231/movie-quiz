@@ -28,6 +28,20 @@ const MenuBar = () => {
         as={Link}
         to="/"
       />
+      <Menu.Item
+          name="quizzes"
+          active={activeItem === "quizzes"}
+          onClick={handleItemClick}
+          as={Link}
+          to="/quizzes"
+        />
+        <Menu.Item
+        name="posts"
+        active={activeItem === "posts"}
+        onClick={handleItemClick}
+        as={Link}
+        to="/posts"
+      />
       <Menu.Menu position="right">
         <Menu.Item
           name="login"

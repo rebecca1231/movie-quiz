@@ -8,7 +8,7 @@ import { AuthContext } from "../context/auth";
 import { FETCH_POSTS_QUERY } from "../util/graphql";
 
 
-const Home = () => {
+const PostsHome = () => {
   const { user } = useContext(AuthContext);
   const { loading, data: { getPosts: posts } = {} } = useQuery(
     FETCH_POSTS_QUERY
@@ -44,7 +44,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default PostsHome;
 /**
  *
  */
