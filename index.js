@@ -1,10 +1,31 @@
 const { ApolloServer, PubSub } = require("apollo-server");
 const mongoose = require("mongoose");
+const { RESTDataSource } = require('apollo-datasource-rest');
+require('dotenv').config()
 
 const { MONGO_URI } = require("./config/dev");
 const typeDefs = require("./GraphQl/typeDefs");
 const resolvers = require("./GraphQl/resolvers");
-const MoviesAPI = require('./MoviesAPI')
+const APIKEY = process.env.OMDB_APIKEY;
+
+//setup Open Movie DB API
+class MoviesAPI extends RESTDataSource {
+  constructor() {
+    super();
+    this.baseURL = 'http://www.omdbapi.com/'
+  }
+  
+  async getMovieList(searchTerm) {
+      const data = await this.get(`?apikey=${APIKEY}&s=${searchTerm}`);
+      return data.Search;    
+  }
+
+  async getMovieDetail(searchTerm) {
+    const data = await this.get(`?apikey=${APIKEY}&i=${searchTerm}`);
+    return data
+  }
+}
+  
 
 const PORT = process.env.PORT || 5000;
 

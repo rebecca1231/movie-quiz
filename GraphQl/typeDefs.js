@@ -3,21 +3,35 @@ const { gql } = require("apollo-server");
 module.exports = gql`
   type Quiz {
     id: ID!
-    title:String!
-    items: [QuizItem!]
+    title: String!
+    items: [QuizItem]
     createdAt: String!
     username: String!
   }
-  
+  type Movie {
+    title: String!
+    year: String!
+    rated: String!
+    runtime: String!
+    actors: String!
+    awards: String!
+    director: String!
+    plot: String!
+    poster: String!
+    genre: String!
+    rating: String!
+    metascore: String!
+  }
   type QuizItem {
     question: String!
     answer: String!
+    imdbId: String!
   }
   type Score {
-    correctCount:Int!
-    questionCount:Int!
+    correctCount: Int!
+    questionCount: Int!
     quizTitle: String!
-    username:String!
+    username: String!
   }
   type Post {
     id: ID!
@@ -28,9 +42,9 @@ module.exports = gql`
     likes: [Like]!
     likeCount: Int!
     commentCount: Int!
-    correctCount:Int!
-    questionCount:Int!
-    quizTitle:String!
+    correctCount: Int!
+    questionCount: Int!
+    quizTitle: String!
   }
   type Comment {
     id: ID!
@@ -60,9 +74,9 @@ module.exports = gql`
     getPosts: [Post]
     getPost(postId: ID!): Post
     getQuizzes: [Quiz]
-    getQuiz(quizId:ID!): Quiz
-    getMovieList(id:String!): Quiz
-    getMovieDetail(searchTerm: String!): QuizItem    
+    getQuiz(quizId: ID!): Quiz
+    getMovieList(searchTerm: String!): Quiz
+    getMovieDetail(searchTerm: String!): Movie
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
@@ -72,12 +86,12 @@ module.exports = gql`
     createComment(postId: ID!, body: String!): Post!
     deleteComment(postId: ID!, commentId: ID!): Post!
     likePost(postId: ID!): Post!
-    createQuiz(title:String!): Quiz!
+    createQuiz(title: String!): Quiz!
     createQuizItem(quizId: ID!, question: String!, answer: String!): Quiz!
     deleteQuiz(quizId: ID!): String!
-
   }
   type Subscription {
     newPost: Post!
   }
 `;
+

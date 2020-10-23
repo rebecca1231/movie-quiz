@@ -28,10 +28,10 @@ const QuizDetail = () => {
   if (!quiz) {
     quizMarkup = <p>Loading...</p>;
   } else {
-    const { title, createdAt, username, items } = quiz;
+    const { title, id, createdAt, username, items } = quiz;
 
     quizMarkup = (
-      <Grid>
+      <Grid key={id}>
         <Grid.Row>
           <Grid.Column width={7}>
             <h2> {title} </h2>
