@@ -45,6 +45,7 @@ const QuizDetail = () => {
                   <List.Item>
                     <List.Header> {item.question} </List.Header>
                     {item.answer}
+                    
                   </List.Item>
                 );
               })}

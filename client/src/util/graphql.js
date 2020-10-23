@@ -47,6 +47,7 @@ export const GET_QUIZ_QUERY = gql`
       items {
         question
         answer
+        imdbId
       }
     }
   }

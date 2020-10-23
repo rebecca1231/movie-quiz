@@ -4,8 +4,6 @@ export const DataContext = createContext({});
 
 export const DataContextProvider = ({ children }) => {
   const [movies, setMovies] = useState([]);
-  //const [choice1, setChoice1] = useState('Title');
-  //const [choice2, setChoice2] = useState('Year');
 const choice1 = 'Title'
 const choice2 = 'Year'
   const updateMovies = (data) => {
@@ -17,7 +15,7 @@ const choice2 = 'Year'
 
   return (
     <DataContext.Provider
-      value={{ movies, updateMovies, resetMovies, choice1, choice2 }}
+      value={{ movies, updateMovies, resetMovies, setMovies, choice1, choice2 }}
     >
       {children}
     </DataContext.Provider>

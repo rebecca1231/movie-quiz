@@ -29,11 +29,11 @@ const MenuBar = () => {
         to="/"
       />
       <Menu.Item
-          name="quizzes"
-          active={activeItem === "quizzes"}
+          name="make a quiz"
+          active={activeItem === "make a quiz"}
           onClick={handleItemClick}
           as={Link}
-          to="/quizzes"
+          to="/makeaquiz"
         />
         <Menu.Item
         name="posts"

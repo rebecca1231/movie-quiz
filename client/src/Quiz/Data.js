@@ -1,38 +1,49 @@
-import axios from "axios";
 import React, { useEffect, useContext, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { debounce } from "./utils/debounce";
-import { DataContext } from "./context/dataContext";
+import { debounce } from "../util/quiz/debounce";
+import { DataContext } from "../context/dataContext";
+import { useQuery } from "@apollo/client";
+
+
+import {FETCH_MOVIE_LIST_QUERY, FETCH_MOVIE_DETAIL_QUERY} from '../util/quiz/graphqlFetchData'
 
 const Data = () => {
+
   const history = useHistory();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTerm2, setSearchTerm2] = useState("");
-  const [movieDetails, setmovieDetails] = useState([]);
-  const { movies, updateMovies } = useContext(DataContext);
+  //const [details, setdetails] = useState([]);
+  //const { movies, setMovies } = useContext(DataContext);
 
-  useEffect(() => {
-    const fetchData = async (searchTerm) => {
-      if(searchTerm === '') return
-      const response = await axios.get(`https://rocky-beach-12396.herokuapp.com/movielist/${searchTerm}`);
-      updateMovies(response.data);
-    };
-    fetchData(searchTerm);
+  const { load, data: { getMovieList: list } = {} } = useQuery(
+    FETCH_MOVIE_LIST_QUERY, {
+      variables:{searchTerm}
+    }
+  );
+  const { loading, data: { getMovieDetail: details } = {} } = useQuery(
+    FETCH_MOVIE_DETAIL_QUERY, {
+      variables:{searchTerm: searchTerm2}
+    }
+  );
 
-    const onMovieSelect = async (searchTerm2) => {
-      if(searchTerm2 === '') return
-      const response = await axios.get(`https://rocky-beach-12396.herokuapp.com/moviedetail/${searchTerm2}`);
-      setmovieDetails(response.data);
-    };
-    onMovieSelect(searchTerm2);
+ 
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm, searchTerm2]);
+    //if(detail)setdetails(detail)
+    //if(list) setMovies(list.items);
+/*
+ * answer: "1999"
+   imdbId: "tt0200469"
+   question: "Bats"
+ */
 
-  const renderList = (selector = "Year") => {
-    if (movies.length < 1) return;
-    return movies.map((movie) => {
-      const id = movie.imdbID;
+  //console.log("movies", movies)
+  //console.log("details", details)
+
+  const renderList = () => {
+    if(!list) return
+    if (list.items.length < 1) return;
+    return list.items.map((movie) => {
+      const id = movie.imdbId;
       return (
         <div
           key={id}
@@ -40,12 +51,12 @@ const Data = () => {
         >
           <div style={{ padding: "3px" }}>
             <p>
-              <strong>Title:</strong> {movie.Title}
+              <strong>Title:</strong> {movie.question}
             </p>
           </div>
           <div style={{ padding: "3px" }}>
             <p>
-              <strong>Year:</strong> {movie[selector]}
+              <strong>Year:</strong> {movie.answer}
             </p>
           </div>
           <div style={{ padding: "3px" }}>
@@ -59,28 +70,34 @@ const Data = () => {
               </div>
             </div>
           </div>
+
+
+
+
+
         </div>
       );
     });
   };
 
   const renderDetails = () => {
-    if (movieDetails.length < 1) return;
+    if(!details) return
+    if (details.length < 1) return;
     return (
       <div style={{ display: "flex", padding: "10px" }}>
         <div style={{ padding: "10px" }}>
-          <img src={movieDetails.Poster} alt={movieDetails.Title} />
-          <p> Title: {movieDetails.Title}</p>
-          <p> Rating: {movieDetails.Rated} </p>
-          <p> Actors: {movieDetails.Actors} </p>
-          <p> Awards: {movieDetails.Awards} </p>
-          <p> Director: {movieDetails.Director} </p>
-          <p> Plot: {movieDetails.Plot} </p>
+          <img src={details.poster} alt={details.title} />
+          <p> Title: {details.title}</p>
+          <p> Rating: {details.rated} </p>
+          <p> Actors: {details.actors} </p>
+          <p> Awards: {details.awards} </p>
+          <p> Director: {details.director} </p>
+          <p> Plot: {details.plot} </p>
         </div>
         <div>
           <div
             className="ui icon button right floated basic"
-            onClick={() => setmovieDetails([])}
+            onClick={() => setSearchTerm2('')}
           >
             {" "}
             <i className="window close outline icon large"></i>
@@ -89,6 +106,7 @@ const Data = () => {
       </div>
     );
   };
+  
 
   const handleChange = (value) => {
     return setSearchTerm(value);
