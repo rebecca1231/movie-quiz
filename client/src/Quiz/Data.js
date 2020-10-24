@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { debounce } from "../util/quiz/debounce";
-import { DataContext } from "../context/dataContext";
 import { useQuery } from "@apollo/client";
 
 
@@ -141,7 +140,7 @@ const Data = () => {
         <div
           className="ui basic button teal"
           onClick={() => {
-            history.push("/quiz");
+            history.push(`/quiz/${searchTerm}`);
           }}
         >
           Go to Quiz
