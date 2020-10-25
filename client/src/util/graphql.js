@@ -1,27 +1,5 @@
 import gql from "graphql-tag";
 
-export const FETCH_POSTS_QUERY = gql`
-  {
-    getPosts {
-      id
-      body
-      createdAt
-      username
-      likeCount
-      likes {
-        username
-      }
-      commentCount
-      comments {
-        id
-        username
-        body
-        createdAt
-      }
-    }
-  }
-`;
-
 export const FETCH_QUIZZES_QUERY = gql`
   {
     getQuizzes {
@@ -29,6 +7,17 @@ export const FETCH_QUIZZES_QUERY = gql`
       title
       createdAt
       username
+      likes{
+        username
+      }
+      comments{
+        id
+        username
+        body
+        createdAt
+      }
+      commentCount
+      likeCount
       items {
         question
         answer
@@ -47,7 +36,7 @@ export const GET_QUIZ_QUERY = gql`
       items {
         question
         answer
-        imdbId
+        
       }
     }
   }

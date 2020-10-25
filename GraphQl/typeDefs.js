@@ -7,6 +7,10 @@ module.exports = gql`
     items: [QuizItem]
     createdAt: String!
     username: String!
+    comments: [Comment]!
+    likes: [Like]!
+    likeCount: Int!
+    commentCount: Int!
   }
   type Movie {
     title: String!
@@ -25,7 +29,12 @@ module.exports = gql`
   type QuizItem {
     question: String!
     answer: String!
-    imdbId: String!
+    imdbId: String
+  }
+
+  input Item {
+    question: String!
+    answer: String!
   }
   type Score {
     correctCount: Int!
@@ -85,8 +94,8 @@ module.exports = gql`
     deletePost(postId: ID!): String!
     createComment(postId: ID!, body: String!): Post!
     deleteComment(postId: ID!, commentId: ID!): Post!
-    likePost(postId: ID!): Post!
-    createQuiz(title: String!): Quiz!
+    likeQuiz(quizId: ID!): Quiz!
+    createQuiz(title: String!, items: [Item]): Quiz!
     createQuizItem(quizId: ID!, question: String!, answer: String!): Quiz!
     deleteQuiz(quizId: ID!): String!
   }
@@ -94,4 +103,3 @@ module.exports = gql`
     newPost: Post!
   }
 `;
-

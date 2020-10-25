@@ -27,7 +27,7 @@ module.exports = {
     },
   },
   Mutation: {
-    async createQuiz(_, { title }, context) {
+    async createQuiz(_, { title, items }, context) {
       const user = checkAuth(context);
       if (title.trim() === "") {
         throw new Error("quiz body cannot be empty");
@@ -35,6 +35,7 @@ module.exports = {
 
       const newQuiz = new Quiz({
         title,
+        items,
         user: user.id,
         username: user.username,
         createdAt: new Date().toISOString(),
@@ -53,7 +54,7 @@ module.exports = {
       try {
         const quiz = await Quiz.findById(quizId);
         if (user.username === quiz.username) {
-          await Quiz.delete();
+          await quiz.delete();
           return "Quiz was successfully deleted";
         } else {
           throw new AuthenticationError("Action not allowed");

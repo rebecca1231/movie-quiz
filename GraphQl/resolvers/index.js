@@ -6,10 +6,11 @@ const quizItemResolver = require("./quizItems");
 const movieResolver = require('./movies')
 
 module.exports = {
-  Post: {
+  Quiz: {
     likeCount: (parent) => parent.likes.length,
     commentCount: (parent) => parent.comments.length,
   },
+
   Query: {
     ...postResolver.Query,
     ...quizResolver.Query,

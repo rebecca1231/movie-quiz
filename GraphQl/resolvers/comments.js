@@ -1,11 +1,11 @@
 const { AuthenticationError, UserInputError } = require("apollo-server");
 
-const Post = require("../../models/Post");
+const Quiz = require("../../models/Quiz");
 const checkAuth = require("../../utils/checkAuth");
 
 module.exports = {
   Mutation: {
-    createComment: async (_, { postId, body }, context) => {
+    createComment: async (_, { quizId, body }, context) => {
       const { username } = checkAuth(context);
       if (body.trim() === "") {
         throw new UserInputError("Empty Comment", {
@@ -14,55 +14,55 @@ module.exports = {
           },
         });
       }
-      const post = await Post.findById(postId);
+      const quiz = await Quiz.findById(quizId);
 
-      if (post) {
-        post.comments.unshift({
+      if (quiz) {
+        quiz.comments.unshift({
           body,
           username,
           createdAt: new Date().toISOString(),
         });
-        await post.save();
-        return post;
-      } else throw new UserInputError("Post not found");
+        await quiz.save();
+        return quiz;
+      } else throw new UserInputError("Quiz not found");
     },
-    deleteComment: async (_, { postId, commentId }, context) => {
+    deleteComment: async (_, { quizId, commentId }, context) => {
       const { username } = checkAuth(context);
-      const post = await Post.findById(postId);
+      const quiz = await Quiz.findById(quizId);
 
-      if (post) {
-        const commentIndex = post.comments.findIndex((c) => c.id === commentId);
+      if (quiz) {
+        const commentIndex = quiz.comments.findIndex((c) => c.id === commentId);
 
-        if (post.comments[commentIndex].username === username) {
-          post.comments.splice(commentIndex, 1);
-          await post.save();
-          return post;
+        if (quiz.comments[commentIndex].username === username) {
+          quiz.comments.splice(commentIndex, 1);
+          await quiz.save();
+          return quiz;
         } else {
           throw new AuthenticationError("Action not allowed");
         }
       } else {
-        throw new UserInputError("Post not found");
+        throw new UserInputError("Quiz not found");
       }
     },
-    likePost: async (_, { postId }, context) => {
+    likeQuiz: async (_, { quizId }, context) => {
       const { username } = checkAuth(context);
-      const post = await Post.findById(postId);
-      if (post) {
-        if (post.likes.find((like) => like.username === username)) {
-          //post has already been liked, so unlike it
-          post.likes = post.likes.filter((like) => like.username !== username);
+      const quiz = await Quiz.findById(quizId);
+      if (quiz) {
+        if (quiz.likes.find((like) => like.username === username)) {
+          //quiz has already been liked, so unlike it
+          quiz.likes = quiz.likes.filter((like) => like.username !== username);
         } else {
-          //like the post
-          post.likes.push({
+          //like the quiz
+          quiz.likes.push({
             username,
             createdAt: new Date().toISOString(),
           });
         }
         //save either case
-        await post.save();
-        return post;
+        await quiz.save();
+        return quiz;
       } else {
-        throw new UserInputError("Post not found");
+        throw new UserInputError("Quiz not found");
       }
     },
   },

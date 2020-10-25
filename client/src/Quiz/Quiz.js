@@ -36,11 +36,8 @@ const Review = () => {
     }
   );
   if (list) {
-    console.log(list.items);
     const currentSet = [...list.items];
-    console.log(currentSet);
     const dataLength = list.items.length;
-    console.log(dataLength);
     let items = [];
     let answer = "";
 

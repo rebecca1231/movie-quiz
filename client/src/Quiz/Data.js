@@ -1,45 +1,47 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { debounce } from "../util/quiz/debounce";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import {  Button } from "semantic-ui-react";
 
 
-import {FETCH_MOVIE_LIST_QUERY, FETCH_MOVIE_DETAIL_QUERY} from '../util/quiz/graphqlFetchData'
+import {
+  FETCH_MOVIE_LIST_QUERY,
+  FETCH_MOVIE_DETAIL_QUERY,
+} from "../util/quiz/graphqlFetchData";
+import {CREATE_QUIZ_MUTATION} from '../util/quiz/graphqlCreateQuiz'
 
 const Data = () => {
-
   const history = useHistory();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTerm2, setSearchTerm2] = useState("");
-  //const [details, setdetails] = useState([]);
-  //const { movies, setMovies } = useContext(DataContext);
 
-  const { load, data: { getMovieList: list } = {} } = useQuery(
-    FETCH_MOVIE_LIST_QUERY, {
-      variables:{searchTerm}
-    }
-  );
-  const { loading, data: { getMovieDetail: details } = {} } = useQuery(
-    FETCH_MOVIE_DETAIL_QUERY, {
-      variables:{searchTerm: searchTerm2}
+  const { data: { getMovieList: list } = {} } = useQuery(
+    FETCH_MOVIE_LIST_QUERY,
+    {
+      variables: { searchTerm },
     }
   );
 
- 
+  let items = []
+if(list) items = list.items.map(item => {return {question: item.question, answer: item.answer}})
+ console.log(items)
 
-    //if(detail)setdetails(detail)
-    //if(list) setMovies(list.items);
-/*
- * answer: "1999"
-   imdbId: "tt0200469"
-   question: "Bats"
- */
+const { data: { getMovieDetail: details } = {} } = useQuery(
+    FETCH_MOVIE_DETAIL_QUERY,
+    {
+      variables: { searchTerm: searchTerm2 },
+    }
+  );
 
-  //console.log("movies", movies)
-  //console.log("details", details)
+  const [createQuiz] = useMutation(CREATE_QUIZ_MUTATION, {
+    variables: {title: searchTerm, items: items},
+    onError() {},
+    
+  });
 
   const renderList = () => {
-    if(!list) return
+    if (!list) return;
     if (list.items.length < 1) return;
     return list.items.map((movie) => {
       const id = movie.imdbId;
@@ -69,18 +71,13 @@ const Data = () => {
               </div>
             </div>
           </div>
-
-
-
-
-
         </div>
       );
     });
   };
 
   const renderDetails = () => {
-    if(!details) return
+    if (!details) return;
     if (details.length < 1) return;
     return (
       <div style={{ display: "flex", padding: "10px" }}>
@@ -96,7 +93,7 @@ const Data = () => {
         <div>
           <div
             className="ui icon button right floated basic"
-            onClick={() => setSearchTerm2('')}
+            onClick={() => setSearchTerm2("")}
           >
             {" "}
             <i className="window close outline icon large"></i>
@@ -105,7 +102,6 @@ const Data = () => {
       </div>
     );
   };
-  
 
   const handleChange = (value) => {
     return setSearchTerm(value);
@@ -137,14 +133,14 @@ const Data = () => {
 
       <div style={{ margin: "1rem" }}>
         <p>Use this data?</p>
-        <div
-          className="ui basic button teal"
-          onClick={() => {
-            history.push(`/quiz/${searchTerm}`);
+        <Button basic color="blue"
+          onClick={() => { return (
+            history.push(`/quiz/${searchTerm}`), 
+            createQuiz(), console.log(list.items))
           }}
         >
           Go to Quiz
-        </div>
+        </Button>
       </div>
     </div>
   );

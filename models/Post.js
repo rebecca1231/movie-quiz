@@ -9,10 +9,7 @@ const postSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users",
   },
-  quiz: {
-    type: Schema.Types.ObjectId,
-    ref: "quizzes",
-  },
+ 
   comments: [
     {
       body: String,

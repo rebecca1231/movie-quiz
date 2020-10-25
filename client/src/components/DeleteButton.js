@@ -4,12 +4,12 @@ import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
 import MyPopup from "../util/MyPopup";
-import { FETCH_POSTS_QUERY } from "../util/graphql";
+import { FETCH_QUIZZES_QUERY } from "../util/graphql";
 
-const DeleteButton = ({ postId, commentId, callback }) => {
+const DeleteButton = ({ quizId, commentId, callback }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION;
+  const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_QUIZ_MUTATION;
 
   const [deleteMutation] = useMutation(mutation, {
     update(proxy) {
@@ -17,17 +17,17 @@ const DeleteButton = ({ postId, commentId, callback }) => {
       if (callback) callback();
       if (!commentId) {
         let data = proxy.readQuery({
-          query: FETCH_POSTS_QUERY,
+          query: FETCH_QUIZZES_QUERY,
         });
-        const resPosts = data.getPosts.filter((p) => p.id !== postId);
+        const resQuizzes = data.getQuizzes.filter((p) => p.id !== quizId);
         proxy.writeQuery({
-          query: FETCH_POSTS_QUERY,
-          data: { getPosts: [...resPosts] },
+          query: FETCH_QUIZZES_QUERY,
+          data: { getQuizzes: [...resQuizzes] },
         });
       }
     },
     onError() {},
-    variables: { postId, commentId },
+    variables: { quizId, commentId },
   });
   return (
     <>
@@ -51,15 +51,15 @@ const DeleteButton = ({ postId, commentId, callback }) => {
   );
 };
 
-const DELETE_POST_MUTATION = gql`
-  mutation deletePost($postId: ID!) {
-    deletePost(postId: $postId)
+const DELETE_QUIZ_MUTATION = gql`
+  mutation deleteQuiz($quizId: ID!) {
+    deleteQuiz(quizId: $quizId)
   }
 `;
 
 const DELETE_COMMENT_MUTATION = gql`
-  mutation deleteComment($postId: ID!, $commentId: ID!) {
-    deleteComment(postId: $postId, commentId: $commentId) {
+  mutation deleteComment($quizId: ID!, $commentId: ID!) {
+    deleteComment(quizId: $quizId, commentId: $commentId) {
       id
       comments {
         id

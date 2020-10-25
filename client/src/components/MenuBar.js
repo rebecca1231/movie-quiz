@@ -13,10 +13,23 @@ const MenuBar = () => {
 
   const navBar = user ? (
     <Menu pointing secondary size="massive" color="teal">
-      <Menu.Item name={user.username} active as={Link} to="/" />
+      <Menu.Item
+        name={user.username}
+        active={activeItem === user.username}
+        onClick={handleItemClick}
+        as={Link}
+        to="/"
+      />
+
+      <Menu.Item
+        name="make a quiz"
+        active={activeItem === "make a quiz"}
+        onClick={handleItemClick}
+        as={Link}
+        to="/makeaquiz"
+      />
       <Menu.Menu position="right">
         <Menu.Item name="logout" onClick={logout} />
-      
       </Menu.Menu>
     </Menu>
   ) : (
@@ -29,19 +42,13 @@ const MenuBar = () => {
         to="/"
       />
       <Menu.Item
-          name="make a quiz"
-          active={activeItem === "make a quiz"}
-          onClick={handleItemClick}
-          as={Link}
-          to="/makeaquiz"
-        />
-        <Menu.Item
-        name="posts"
-        active={activeItem === "posts"}
+        name="make a quiz"
+        active={activeItem === "make a quiz"}
         onClick={handleItemClick}
         as={Link}
-        to="/posts"
+        to="/makeaquiz"
       />
+
       <Menu.Menu position="right">
         <Menu.Item
           name="login"
@@ -62,7 +69,7 @@ const MenuBar = () => {
   );
 
   //ctrl + space to see all options!
-  return  navBar ;
+  return navBar;
 };
 
 export default MenuBar;

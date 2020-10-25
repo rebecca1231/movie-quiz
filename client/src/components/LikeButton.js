@@ -6,16 +6,18 @@ import gql from "graphql-tag";
 
 import MyPopup from "../util/MyPopup";
 
-const LikeButton = ({ user, post: { likes, likeCount, id } }) => {
+const LikeButton = ({ user, quiz: { likes, likeCount, id } }) => {
   const [liked, setLiked] = useState(false);
-  useEffect(() => {
+  console.log(user)
+  console.log(likes)
+ useEffect(() => {
     if (user && likes.find((like) => like.username === user.username)) {
       setLiked(true);
     } else setLiked(false);
   }, [user, likes]);
 
-  const [likePost] = useMutation(LIKE_POST_MUTATION, {
-    variables: { postId: id },
+  const [likePost] = useMutation(LIKE_QUIZ_MUTATION, {
+    variables: { quizId: id },
     onError() {},
   });
   const item = likeCount === 1 ? "like" : "likes";
@@ -49,9 +51,9 @@ const LikeButton = ({ user, post: { likes, likeCount, id } }) => {
   );
 };
 
-const LIKE_POST_MUTATION = gql`
-  mutation likePost($postId: ID!) {
-    likePost(postId: $postId) {
+const LIKE_QUIZ_MUTATION = gql`
+  mutation likeQuiz($quizId: ID!) {
+    likeQuiz(quizId: $quizId) {
       likes {
         id
       }
