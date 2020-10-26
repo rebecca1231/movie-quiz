@@ -2,14 +2,13 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import { Grid, List, Button, Loader, Image, Card, Form, Icon } from "semantic-ui-react";
+import { Grid, List, Loader, Image, Card, Form } from "semantic-ui-react";
 import moment from "moment";
 import { Link, useHistory } from "react-router-dom";
 
 import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
-import CommentButton from "../components/CommentButton";
 import { GET_QUIZ_QUERY } from "../util/graphql";
 import PlayButton from "../components/PlayButton";
 
@@ -47,7 +46,7 @@ const QuizDetail = () => {
     quizMarkup =
     <Loader active inline='centered' />
   } else {
-    const { title, createdAt, username, items, comments} = quiz;
+    const { title, createdAt, username, items, comments, id} = quiz;
     quizMarkup = (
       <Grid columns={num}>
         <Grid.Row>
@@ -55,10 +54,11 @@ const QuizDetail = () => {
             <h2> {title} </h2>
             <p> Created: {moment(createdAt).fromNow()} </p>
             <p> By: {username} </p>
-            <div style={{marginBottom:"1.5rem"}}>
+            <div style={{marginBottom:"1.5rem", maxWidth:"250px"}}>
 
             <LikeButton user={user} quiz={quiz} />
             <PlayButton title={title} />
+        {user && user.username === username && <DeleteButton quizId={id} />}
 
             </div>
           </Grid.Column>
@@ -100,20 +100,22 @@ const QuizDetail = () => {
                 </Form>
        
             )}
+            <hr/>
+            {comments.length > 0 ? <h3>Comments</h3> : ''}
             {comments.length > 0 &&
               comments.map((comment) => (
-                <Card fluid key={comment.id}>
-                  <Card.Content>
+                <List key={comment.id}>
+                  <List.Content>
                     {user && user.username === comment.username && (
                       <DeleteButton quizId={quizId} commentId={comment.id} />
                     )}
-                    <Card.Header>{comment.username} </Card.Header>
-                    <Card.Meta>
-                      {moment(comment.createdAt).fromNow()}{" "}
-                    </Card.Meta>
-                    <Card.Description>{comment.body} </Card.Description>
-                  </Card.Content>
-                </Card>
+                    <List.Header>{comment.username} </List.Header>
+                    <p>
+                      {moment(comment.createdAt).fromNow()}
+                    </p>
+                    <List.Description>{comment.body} </List.Description>
+                  </List.Content>
+                </List>
               ))}
           </Grid.Column>
         </Grid.Row>
