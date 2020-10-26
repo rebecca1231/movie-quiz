@@ -21,6 +21,7 @@ export const FETCH_QUIZZES_QUERY = gql`
       items {
         question
         answer
+        poster
       }
     }
   }
@@ -29,6 +30,18 @@ export const FETCH_QUIZZES_QUERY = gql`
 export const GET_QUIZ_QUERY = gql`
   query($quizId: ID!) {
     getQuiz(quizId: $quizId) {
+      comments {
+        id
+        username
+        body
+        createdAt
+      }
+      commentCount
+      likeCount
+    
+      likes{
+        username
+      }
       title
       id
       createdAt
@@ -36,7 +49,7 @@ export const GET_QUIZ_QUERY = gql`
       items {
         question
         answer
-        
+        poster
       }
     }
   }

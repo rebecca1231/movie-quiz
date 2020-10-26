@@ -29,6 +29,7 @@ module.exports = {
           question: d.Title,
           answer: d.Year,
           imdbId: d.imdbID,
+          poster: d.Poster
         };
       });
       return quiz;

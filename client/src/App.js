@@ -25,7 +25,7 @@ function App() {
             <Container>
               <MenuBar />
               <Route exact path="/" component={QuizzesHome} />
-              <Route exact path="/makeaquiz" component={Data} />
+              <Route exact path="/create" component={Data} />
               <Route exact path="/quiz/:searchTerm" component={Quiz} />
               <Route exact path="/quizzes/:quizId" component={QuizDetail} />
               <AuthRoute exact path="/login" component={Login} />

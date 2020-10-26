@@ -13,3 +13,11 @@
 .ui.teal.button:focus, .ui.teal.buttons .button:focus {
   background-color: #00b5ad;
 }
+
+.quiz-item {
+  transition: all 0.2s ease-in-out;
+}
+.quiz-item:hover {
+  transform: scale(1.05);
+
+}

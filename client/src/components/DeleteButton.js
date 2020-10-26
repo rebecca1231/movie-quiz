@@ -34,11 +34,12 @@ const DeleteButton = ({ quizId, commentId, callback }) => {
       <MyPopup content={commentId ? "Delete comment" : "Delete post"}>
         <Button
           as="div"
-          color="red"
+          basic
+          icon
           floated="right"
           onClick={() => setConfirmOpen(true)}
         >
-          <Icon name="trash" style={{ margin: 0 }} />
+          <Icon name="trash alternate outline" style={{ margin: 0 }} />
         </Button>
         
       </MyPopup>

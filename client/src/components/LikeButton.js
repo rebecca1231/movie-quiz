@@ -8,8 +8,6 @@ import MyPopup from "../util/MyPopup";
 
 const LikeButton = ({ user, quiz: { likes, likeCount, id } }) => {
   const [liked, setLiked] = useState(false);
-  console.log(user)
-  console.log(likes)
  useEffect(() => {
     if (user && likes.find((like) => like.username === user.username)) {
       setLiked(true);
@@ -25,28 +23,23 @@ const LikeButton = ({ user, quiz: { likes, likeCount, id } }) => {
   
   const likeButton = user ? (
     liked ? (
-      <Button color="teal">
+      <Button icon color="red" onClick={likePost}>
         <Icon name="heart" />
       </Button>
     ) : (
-      <Button color="teal" basic>
+      <Button icon color="red" basic onClick={likePost}>
         <Icon name="heart" />
       </Button>
     )
   ) : (
-    <Button as={Link} to="/login" color="teal" basic>
+    <Button icon as={Link} to="/login" color="red" basic>
       <Icon name="heart" />
     </Button>
   );
 
   return (
-    <MyPopup content={`${likeCount} ${item}. ${text}?`}>
-      <Button as="div" labelPosition="right" onClick={likePost}>
+    <MyPopup content={`${likeCount} ${item}.`}>
         {likeButton}
-        <Label as="a" basic color="teal" pointing="left">
-          {likeCount}
-        </Label>
-      </Button>
     </MyPopup>
   );
 };

@@ -9,6 +9,7 @@ export const FETCH_MOVIE_LIST_QUERY = gql`
         question
         answer
         imdbId
+        poster
       }
     }
   }

@@ -12,7 +12,7 @@ const MenuBar = () => {
   const [activeItem, setActiveItem] = useState(path);
 
   const navBar = user ? (
-    <Menu pointing secondary size="massive" color="teal">
+    <Menu pointing secondary size="large" color="orange">
       <Menu.Item
         name={user.username}
         active={activeItem === user.username}
@@ -22,18 +22,18 @@ const MenuBar = () => {
       />
 
       <Menu.Item
-        name="make a quiz"
-        active={activeItem === "make a quiz"}
+        name="create"
+        active={activeItem === "create"}
         onClick={handleItemClick}
         as={Link}
-        to="/makeaquiz"
+        to="/create"
       />
       <Menu.Menu position="right">
         <Menu.Item name="logout" onClick={logout} />
       </Menu.Menu>
     </Menu>
   ) : (
-    <Menu pointing secondary size="massive" color="teal">
+    <Menu pointing secondary color="blue">
       <Menu.Item
         name="home"
         active={activeItem === "home"}
@@ -42,11 +42,11 @@ const MenuBar = () => {
         to="/"
       />
       <Menu.Item
-        name="make a quiz"
-        active={activeItem === "make a quiz"}
+        name="create"
+        active={activeItem === "create"}
         onClick={handleItemClick}
         as={Link}
-        to="/makeaquiz"
+        to="/create"
       />
 
       <Menu.Menu position="right">

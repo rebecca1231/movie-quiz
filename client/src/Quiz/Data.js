@@ -1,20 +1,24 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { debounce } from "../util/quiz/debounce";
 import { useQuery, useMutation } from "@apollo/client";
-import {  Button } from "semantic-ui-react";
-
+import { Button, Icon } from "semantic-ui-react";
 
 import {
   FETCH_MOVIE_LIST_QUERY,
   FETCH_MOVIE_DETAIL_QUERY,
 } from "../util/quiz/graphqlFetchData";
-import {CREATE_QUIZ_MUTATION} from '../util/quiz/graphqlCreateQuiz'
+import { CREATE_QUIZ_MUTATION } from "../util/quiz/graphqlCreateQuiz";
 
 const Data = () => {
   const history = useHistory();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTerm2, setSearchTerm2] = useState("");
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+  }, [window.innerWidth]);
+  const size = windowWidth > 900 ? "flex" : "block";
 
   const { data: { getMovieList: list } = {} } = useQuery(
     FETCH_MOVIE_LIST_QUERY,
@@ -23,11 +27,21 @@ const Data = () => {
     }
   );
 
-  let items = []
-if(list) items = list.items.map(item => {return {question: item.question, answer: item.answer}})
- console.log(items)
+  let items = [];
+  if (list) {
+    console.log("list", list);
 
-const { data: { getMovieDetail: details } = {} } = useQuery(
+    items = list.items.map((item) => {
+      return {
+        question: item.question,
+        answer: item.answer,
+        poster: item.poster,
+      };
+    });
+    console.log("items 2", items);
+  }
+
+  const { data: { getMovieDetail: details } = {} } = useQuery(
     FETCH_MOVIE_DETAIL_QUERY,
     {
       variables: { searchTerm: searchTerm2 },
@@ -35,9 +49,8 @@ const { data: { getMovieDetail: details } = {} } = useQuery(
   );
 
   const [createQuiz] = useMutation(CREATE_QUIZ_MUTATION, {
-    variables: {title: searchTerm, items: items},
+    variables: { title: searchTerm, items: items },
     onError() {},
-    
   });
 
   const renderList = () => {
@@ -62,13 +75,9 @@ const { data: { getMovieDetail: details } = {} } = useQuery(
           </div>
           <div style={{ padding: "3px" }}>
             <div style={{ padding: "5px" }}>
-              <div
-                className="ui tiny button basic"
-                onClick={() => setSearchTerm2(id)}
-                style={{ maxWidth: "40vw" }}
-              >
-                More about this movie
-              </div>
+              <Button icon basic size="mini" onClick={() => setSearchTerm2(id)}>
+                <Icon name="info" />{" "}
+              </Button>
             </div>
           </div>
         </div>
@@ -95,7 +104,6 @@ const { data: { getMovieDetail: details } = {} } = useQuery(
             className="ui icon button right floated basic"
             onClick={() => setSearchTerm2("")}
           >
-            {" "}
             <i className="window close outline icon large"></i>
           </div>
         </div>
@@ -125,18 +133,24 @@ const { data: { getMovieDetail: details } = {} } = useQuery(
           />
         </div>
       </div>
-      <div style={{ display: "flex" }}>
-        {" "}
-        <div>{renderList()}</div>
-        <div>{renderDetails()}</div>
-      </div>
-
+      {size === "flex" ? (
+        <div style={{ display: `${size}` }}>
+          <div>{renderList()}</div>
+          <div>{renderDetails()}</div>
+        </div>
+      ) : (
+        <div style={{ display: `${size}` }}>
+          <div style={{maxWidth: `${windowWidth} - 20`, overflow:"hidden" }}>{renderDetails()}</div>
+           <div>{renderList()}</div>
+        </div>
+      )}
       <div style={{ margin: "1rem" }}>
         <p>Use this data?</p>
-        <Button basic color="blue"
-          onClick={() => { return (
-            history.push(`/quiz/${searchTerm}`), 
-            createQuiz(), console.log(list.items))
+        <Button
+          basic
+          color="blue"
+          onClick={() => {
+            return history.push(`/quiz/${searchTerm}`), createQuiz();
           }}
         >
           Go to Quiz

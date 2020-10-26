@@ -10,6 +10,7 @@ mutation($title: String!, $items: [Item]) {
     items{
         question
         answer
+        poster
     }
     comments {
       id
