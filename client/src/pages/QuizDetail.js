@@ -76,6 +76,10 @@ const QuizDetail = () => {
                 );
               })}
             </List>
+            <hr/>
+
+            {comments.length > 0 ? <h3>Comments</h3> : <h3>No Comments Yet</h3>}
+
             {user && (
          
                 <Form>
@@ -100,8 +104,6 @@ const QuizDetail = () => {
                 </Form>
        
             )}
-            <hr/>
-            {comments.length > 0 ? <h3>Comments</h3> : ''}
             {comments.length > 0 &&
               comments.map((comment) => (
                 <List key={comment.id}>

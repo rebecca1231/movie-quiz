@@ -1,13 +1,15 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { UserInputError } = require("apollo-server");
+require('dotenv').config()
+
 
 const {
   validateRegisterInput,
   validateLoginInput,
 } = require("../../utils/validators");
 const User = require("../../models/User");
-const { SECRET_KEY } = require("../../config/dev");
+const SECRET_KEY = process.env.SECRET_KEY;
 
 const generateToken = (user) => {
   return jwt.sign(
