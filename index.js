@@ -45,14 +45,14 @@ const server = new ApolloServer({
 //setup db
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log(`Connected to Atlas`);
-    return server.listen({ port: PORT });
+  .then((db) => {
+    console.log(`Connected to ${db.connections[0].name}`);
   })
-  .then((result) => {
-    console.log(`Server listening on: ${result.url}`);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
+
+
+server.listen(PORT, () =>
+    console.log(
+        `Server started, listening on port ${PORT} for incoming requests.`,
+    ),
+)
