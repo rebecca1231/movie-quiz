@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const { RESTDataSource } = require('apollo-datasource-rest');
 require('dotenv').config()
 
-const { MONGO_URI } = require("./config/dev");
+const  MONGO_URI  = process.env.MONGO_URI;
 const typeDefs = require("./GraphQl/typeDefs");
 const resolvers = require("./GraphQl/resolvers");
 const APIKEY = process.env.OMDB_APIKEY;
@@ -55,4 +55,3 @@ mongoose
     console.log(err);
   });
 
-  //require('./routes/movieRoutes')(server)

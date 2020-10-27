@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { debounce } from "../util/quiz/debounce";
 import { useQuery, useMutation } from "@apollo/client";
@@ -14,11 +14,8 @@ const Data = () => {
   const history = useHistory();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTerm2, setSearchTerm2] = useState("");
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-  }, [window.innerWidth]);
-  const size = windowWidth > 900 ? "flex" : "block";
+
+  const size = window.innerWidth > 700 ? "flex" : "block";
 
   const { data: { getMovieList: list } = {} } = useQuery(
     FETCH_MOVIE_LIST_QUERY,
@@ -89,7 +86,7 @@ const Data = () => {
     if (!details) return;
     if (details.length < 1) return;
     return (
-      <div style={{ display: "flex", padding: "10px" }}>
+      <div style={{ display: "flex", padding: "5px" }}>
         <div style={{ padding: "10px" }}>
           <img src={details.poster} alt={details.title} />
           <p> Title: {details.title}</p>
@@ -101,7 +98,8 @@ const Data = () => {
         </div>
         <div>
           <div
-            className="ui icon button right floated basic"
+            style={{padding:"0", margin:"0"}}
+            className="ui icon button right floated basic mini"
             onClick={() => setSearchTerm2("")}
           >
             <i className="window close outline icon large"></i>
@@ -140,16 +138,19 @@ const Data = () => {
         </div>
       ) : (
         <div style={{ display: `${size}` }}>
-          <div style={{maxWidth: `${windowWidth} - 20`, overflow:"hidden" }}>{renderDetails()}</div>
+          <div style={{maxWidth: `${window.innerWidth} - 20` }}>{renderDetails()}</div>
            <div>{renderList()}</div>
         </div>
       )}
+
       <div style={{ margin: "1rem" }}>
         <p>Use this data?</p>
         <Button
           basic
           color="blue"
+          disabled={!list}
           onClick={() => {
+             // eslint-disable-next-line
             return history.push(`/quiz/${searchTerm}`), createQuiz();
           }}
         >

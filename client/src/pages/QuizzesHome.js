@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { Grid, Transition, Loader } from "semantic-ui-react";
 
@@ -8,11 +8,7 @@ import { FETCH_QUIZZES_QUERY } from "../util/graphql";
 // import { AuthContext } from "../context/auth";
 
 const QuizzesHome = () => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-  }, [window.innerWidth]);
-  const num = windowWidth > 900 ? 3 : 1;
+ 
 
   // const { user } = useContext(AuthContext);
   const { loading, data: { getQuizzes: quizzes } = {} } = useQuery(
@@ -20,7 +16,7 @@ const QuizzesHome = () => {
   );
 
   return (
-    <Grid columns={num}>
+    <Grid columns='2'>
       <Grid.Row className="page-title">
         <h2>Recent Quizzes</h2>
       </Grid.Row>

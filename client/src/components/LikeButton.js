@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Icon, Label, Button } from "semantic-ui-react";
+import { Icon, Button } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
@@ -19,7 +19,6 @@ const LikeButton = ({ user, quiz: { likes, likeCount, id } }) => {
     onError() {},
   });
   const item = likeCount === 1 ? "like" : "likes";
-  const text = liked ? "Unlike" : "Like"
   
   const likeButton = user ? (
     liked ? (

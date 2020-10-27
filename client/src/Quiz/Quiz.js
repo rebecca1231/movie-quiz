@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@apollo/client";
@@ -19,23 +19,21 @@ const correctAnswers = [];
 
 const Review = () => {
   const { searchTerm } = useParams();
-  const [term, setTerm] = useState("");
   const history = useHistory();
   const [, setUpdate] = useState();
   const forceUpdate = useCallback(() => setUpdate({}), []);
   const [finished, setFinished] = useState(false);
   const { count, score, updateCount, updateScore } = useContext(CountContext);
-  useEffect(() => {
-    setTerm(searchTerm);
-  }, [term]);
 
-  const { load, data: { getMovieList: list } = {} } = useQuery(
+  const { data: { getMovieList: list } = {} } = useQuery(
     FETCH_MOVIE_LIST_QUERY,
     {
-      variables: { searchTerm: term },
+      variables: { searchTerm },
     }
   );
+
   if (list) {
+
     const currentSet = [...list.items];
     const dataLength = list.items.length;
     let items = [];
@@ -56,13 +54,12 @@ const Review = () => {
     };
 
     const respondToCorrect = (item) => {
-      const index = currentSet.indexOf(item)
-      if (index > -1)currentSet.splice(index, 1)
+   
       if (correctAnswers.includes(item)) {
         return;
       } else correctAnswers.push(item);
       if (correctAnswers.length === dataLength) setFinished(true);
-      return correctAnswers, currentSet;
+      return correctAnswers;
     };
 
     const respondToIncorrect = (item) => {
@@ -139,7 +136,7 @@ const Review = () => {
         <p>You have no quiz data</p>
         <p>Please select your quiz details.</p>
         <div
-          onClick={() => history.push("/makeaquiz")}
+          onClick={() => history.push("/create")}
           className="ui basic teal button"
         >
           Get Your Data
