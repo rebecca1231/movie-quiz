@@ -12,7 +12,7 @@ const APIKEY = process.env.OMDB_APIKEY;
 class MoviesAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = 'http://www.omdbapi.com/'
+    this.baseURL = 'https://www.omdbapi.com/'
   }
   
   async getMovieList(searchTerm) {
