@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { CountContext } from "./context/countContext";
-import PieChart from "./components/PieChart";
+import { CountContext } from "../context/countContext";
+import PieChart from "./PieChart";
 
 const Score = () => {
   const history = useHistory();
@@ -19,7 +19,7 @@ const Score = () => {
         style={{ margin: "10px" }}
         className="ui basic teal button"
         onClick={() => {
-          return (history.push("/data"), resetCount(), resetScore())
+          return (history.push("/"), resetCount(), resetScore())
         }}
       >
         Try Another Quiz!{" "}

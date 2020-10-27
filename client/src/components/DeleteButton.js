@@ -3,7 +3,7 @@ import { Icon, Confirm, Button } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
-import MyPopup from "../util/MyPopup";
+import PopupLabel from "../util/PopupLabel";
 import { FETCH_QUIZZES_QUERY } from "../util/graphql";
 
 const DeleteButton = ({ quizId, commentId, callback }) => {
@@ -31,7 +31,7 @@ const DeleteButton = ({ quizId, commentId, callback }) => {
   });
   return (
     <>
-      <MyPopup content={commentId ? "Delete comment" : "Delete post"}>
+      <PopupLabel content={commentId ? "Delete comment" : "Delete post"}>
         <Button
           as="div"
           basic
@@ -42,7 +42,7 @@ const DeleteButton = ({ quizId, commentId, callback }) => {
           <Icon name="trash alternate outline" style={{ margin: 0 }} />
         </Button>
         
-      </MyPopup>
+      </PopupLabel>
       <Confirm
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}

@@ -26,7 +26,7 @@ class MoviesAPI extends RESTDataSource {
   }
 }
   
-
+//set up server
 const PORT = process.env.PORT || 5000;
 
 const pubsub = new PubSub();
@@ -42,6 +42,7 @@ const server = new ApolloServer({
   context: ({ req }) => ({ req, pubsub }),
 });
 
+//setup db
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

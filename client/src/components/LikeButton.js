@@ -4,7 +4,7 @@ import { Icon, Button } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
-import MyPopup from "../util/MyPopup";
+import PopupLabel from "../util/PopupLabel";
 
 const LikeButton = ({ user, quiz: { likes, likeCount, id } }) => {
   const [liked, setLiked] = useState(false);
@@ -37,9 +37,9 @@ const LikeButton = ({ user, quiz: { likes, likeCount, id } }) => {
   );
 
   return (
-    <MyPopup content={`${likeCount} ${item}.`}>
+    <PopupLabel content={`${likeCount} ${item}.`}>
         {likeButton}
-    </MyPopup>
+    </PopupLabel>
   );
 };
 

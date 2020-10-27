@@ -15,6 +15,7 @@ const Card = styled.div`
 `;
 
 const Flashcard = ({
+  item,
   choice1,
   choice2,
   color,
@@ -34,7 +35,7 @@ const Flashcard = ({
     if (counter === 0) {
       return (
         setCorrect(true),
-        respondToCorrect(choice1),
+        respondToCorrect(item),
         setTimeout(() => {
           return (
             updateScore(score),

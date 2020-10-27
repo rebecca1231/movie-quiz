@@ -26,7 +26,6 @@ const Data = () => {
 
   let items = [];
   if (list) {
-    console.log("list", list);
 
     items = list.items.map((item) => {
       return {
@@ -35,7 +34,7 @@ const Data = () => {
         poster: item.poster,
       };
     });
-    console.log("items 2", items);
+    console.log("items", items);
   }
 
   const { data: { getMovieDetail: details } = {} } = useQuery(

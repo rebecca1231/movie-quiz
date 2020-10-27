@@ -32,10 +32,10 @@ const Review = () => {
     }
   );
 
-  if (list) {
 
-    const currentSet = [...list.items];
-    const dataLength = list.items.length;
+  if (list) {
+    let currentSet = [...list.items];
+    const dataLength = list.items.length + 1;
     let items = [];
     let answer = "";
 
@@ -54,12 +54,16 @@ const Review = () => {
     };
 
     const respondToCorrect = (item) => {
-   
+      if (currentSet.length > 4) {
+        const index = currentSet.indexOf(item);
+        if (index > -1) currentSet.splice(index, 1);
+        console.log(index, currentSet);
+      }
       if (correctAnswers.includes(item)) {
         return;
       } else correctAnswers.push(item);
-      if (correctAnswers.length === dataLength) setFinished(true);
-      return correctAnswers;
+      if (correctAnswers.length + 1 === dataLength) setFinished(true);
+      return (correctAnswers, currentSet);
     };
 
     const respondToIncorrect = (item) => {
@@ -75,6 +79,8 @@ const Review = () => {
         const itemIndex = items.indexOf(item);
         return (
           <Flashcard
+          item={item}
+            key={item["answer"]}
             choice1={item["question"]}
             choice2={item["answer"]}
             color={colors[itemIndex]}
@@ -92,7 +98,7 @@ const Review = () => {
     return (
       <>
         {finished ? (
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center" }} className="finished">
             <h1>You have reviewed all the words in this set!</h1>
             <h3>Well Done!</h3>{" "}
             <div className="item">
