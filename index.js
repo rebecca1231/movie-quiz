@@ -1,10 +1,7 @@
-const { ApolloServer, PubSub } = require("apollo-server-express");
+const { ApolloServer, PubSub } = require("apollo-server");
 const mongoose = require("mongoose");
 const { RESTDataSource } = require('apollo-datasource-rest');
 require('dotenv').config()
-const express = require('express');
-const app = express();
-const cors = require('cors');
 
 const  MONGO_URI  = process.env.MONGO_URI;
 const typeDefs = require("./GraphQl/typeDefs");
@@ -45,7 +42,6 @@ const server = new ApolloServer({
   context: ({ req }) => ({ req, pubsub }),
 });
 
-app.use(cors())
 //setup db
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -53,25 +49,7 @@ mongoose
     console.log(`Connected to ${db.connections[0].name}`);
   })
 
-  if (process.env.NODE_ENV === "production") {
-    //express will serve up production assets
-    //like main.js file, or main.css file
-    app.use(express.static("client/build"));
-  
-    //express will serve up index.html file when
-    //it doesn't recognize the route
-    const path = require("path");
-    app.get("*", (req, res) => {
-      res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-    });
-  }
-  server.applyMiddleware({
-    path: '/client', // you should change this to whatever you want
-    app,
-  });
-  
-
-app.listen(PORT, () =>
+  server.listen(PORT, () =>
     console.log(
         `Server started, listening on port ${PORT} for incoming requests.`,
     ),
